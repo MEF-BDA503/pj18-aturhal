@@ -1,0 +1,40 @@
+---
+title: "Assignment 1 - R Examples"
+author: "Ahmet Turhal"
+date: "Oct 14, 2018"
+output: html_document
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Current Situation and Future Plans
+
+I have been working in the insurance market since I graduated from university and I cannot say that data science is widely and properly used. Looking at my company, there is a Business Intelligence and Data Warehouse Department and it mostly provides reporting services for other departments. However, in near future, my intention is to work as a data scientist in music or sports area as they are my true passions. Specifically in professional basketball, there is a growing interest in data analytics and almost all high profile teams have their data analytics team as they think it has become a key aspect of a successful franchise.
+
+## R Consortium Videos
+
+In the presentation, “The Dynamic Approach to Inequality”, Maria Holcekova aims to state how young people from different socio-economic backgrounds get involved in the labor market and the mediating role of education in that matter. The problem was socio-economic positions were defined by too many dynamic measures and she suggested the solution of dimension reduction through cluster analysis. First, she talked about how she collected the data and showed some plots and graphs of one cluster that she created using R. Then, she explained the process of determining the clusters with further explanation of which packages and functions she used during the analysis. Finally, she showed a visualization of the clusters and made comments on the conclusion.
+
+[The Dynamic Approach to Inequality - presented by Maria Holcekova](https://www.youtube.com/watch?v=K9BREgK4JYQ)
+
+## #1 - Survival Analysis with R
+
+Survival analysis is crucial for an insurance company to build to-the-point estimations when creating a new product. Old-school techniques like life table data are commonly used but since it is the age of efficiency, companies need advanced methods like using R for statistics. The link below remarkably provides the required information about survival analysis with specified packages and models.
+
+[Survival Analysis with R](https://rviews.rstudio.com/2017/09/25/survival-analysis-with-r/)
+
+## #2 - Simulating Insurance Claims with R
+
+Simulation is a very useful method when calculating the future expenses and the biggest expense item in insurance is claims. Looking at the claims paid in the past, one can measure the losses that are expected to be paid in future years. In the article, the writer explains the simulation process step by step, starting from a single observation to many observations using R and statistics.
+
+[Simulating Insurance Claims](https://www.r-bloggers.com/simulating-insurance-claims/)
+
+## #3 - Flood Insurance Analysis using R
+
+Federal Emergency Management Agency (FEMA) in the United States has a flood insurance program that enables property owners to buy insurance protection against losses from flooding. Here, the writer takes the data provided by FEMA and does some cleaning and formatting to create visualizations such as plots and maps regarding the policy and claim counts.
+
+[FEMA’s Flood Insurance Program – Analysis & Maps using R](https://github.com/RationShop/nfip)
