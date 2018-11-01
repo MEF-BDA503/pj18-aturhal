@@ -4,7 +4,7 @@
 
 ##Week 2
 
-[Assignment 2: RMarkdown Assignment](https://mef-bda503.github.io/pj18-aturhal/Ahmet_Turhal_BDA503_As1.html)
+[Assignment 2: RMarkdown Assignment](https://mef-bda503.github.io/pj18-aturhal/Ahmet_Turhal_BDA503_As2.html)
 
 ##Week 1
 
