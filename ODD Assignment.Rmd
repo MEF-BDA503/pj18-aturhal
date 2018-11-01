@@ -1,13 +1,14 @@
 ---
-title: "ODD Assignment"
+title: "ODD 02/2018 Retail Sales Data Analysis"
 author: "Ahmet Turhal"
-date: "21 Ekim 2018"
+date: "Oct 21, 2018"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+- Downloading the row data
 ```{r}
 library(tidyverse)
 # Create a temporary file
@@ -18,7 +19,9 @@ download.file("https://github.com/MEF-BDA503/pj18-aturhal/blob/master/odd_retail
 raw_data<-readxl::read_excel(tmp,skip=7,col_names=FALSE)
 # # Remove the temp file
 file.remove(tmp)
-
+```
+- Civilize the data
+```{r}
 # Remove the last two rows because they are irrelevant (total and empty rows)
 raw_data <- raw_data %>% slice(-c(43,44))
 
@@ -31,13 +34,16 @@ colnames(raw_data) <- c("brand_name","auto_dom","auto_imp","auto_total","comm_do
 car_data_feb_18 <- raw_data %>% mutate_if(is.numeric,funs(ifelse(is.na(.),0,.))) %>% mutate(year=2018,month=2)
 
 print(car_data_feb_18,width=Inf)
-
+```
+- Save the data
+```{r}
 saveRDS(car_data_feb_18,file="~/Data Science/Big Data Essentials/odd_car_sales_data_feb_18.rds")
 # You can read that file by readRDS and assigning to an object 
 # e.g 
 #rds_data <- readRDS("~/Data Science/Big Data Essentials/odd_car_sales_data_feb_18.rds")
 
 ```
+- Analyze the data
 ```{r}
 #List of total sales of brands that have sold more automobiles than commercial vehicles ordered in decreasing total sales
 car_data_feb_18 %>%
@@ -54,4 +60,3 @@ car_data_feb_18 %>%
   transmute(brand_name, auto_total, auto_percents = round(auto_total/sum(auto_total)*100, 2)) %>%
   arrange(desc(auto_percents))
 ```
-
