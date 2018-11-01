@@ -1,5 +1,3 @@
-# Ahmet Turhal - Progress Journal
-
 ##Week 3
 
 [Assignment 3: ODD Sales Analysis](https://mef-bda503.github.io/pj18-aturhal/ODD_Assignment.html)
