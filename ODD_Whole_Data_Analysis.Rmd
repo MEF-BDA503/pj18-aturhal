@@ -1,0 +1,84 @@
+---
+title: "ODD Whole Data Analysis"
+author: "Ahmet Turhal"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Introduction
+The dataset subject to our analysis includes retail sales of automobiles and commercial vehicles in Turkey based on brand in monthly basis. The dataset includes data from Jan'16 to Sep'19. The dataset incorporates 12 columns. Details of the column names & description is are represented below:
+
+* brand_name: Name of the brand
+* auto_dom : Sales amount of domestic automobiles
+*	auto_imp : Sales amount of imported automobiles
+*	auto_total : Total sales amount of automobiles
+*	comm_dom : Sales amount of domestic commercial vehicles
+*	comm_imp : Sales amount of imported commercial vehicles 
+*	comm_total : Total sales amount of commercial vehicles
+*	total_dom : Total sales of all domestic product vehicles
+*	total_imp : Total sales of all imported vehicles
+*	total_total: Total sales amount of all vehicles
+*	year : Year
+*	month : Month
+
+In order to perform a healthy analysis, the dataset has been adjusted in three aspects:
+1.	Delete the invalid row that contains a disclaimer
+2.	Delete the rows brand_name = "TOPLAM:" 
+3.	Change of "ASTON MARTIN" to "ASTON MARTIN" in order to merge the two different brand names for the same brand.
+
+```{r}
+library(tidyverse)
+library(scales)
+setwd('C:/Users/Turhal/Documents/Data Science/Big Data Essentials')
+raw_data = read_rds("car_data_aggregate.rds")
+raw_data = subset(raw_data,subset=brand_name != 'TOPLAM:' & !startsWith(brand_name, "ODD"))
+raw_data$brand_name = str_replace(raw_data$brand_name, "MARTIN", "MARTIN")
+#raw_data = raw_data %>% slice(-46)
+raw_data[is.na(raw_data)] <- 0
+```
+
+```{r}
+head(raw_data)
+```
+### Analysis I
+Firstly, let's see the top performers for the year 2016. In order to do that, we need to select the five most selling brands in total.
+
+```{r cars}
+raw_data1 =  
+    raw_data %>% 
+    filter(auto_total > 0 & comm_total > 0) %>%
+    select(brand_name,auto_total,comm_total,total_total,year) %>%
+    arrange(desc(year),desc(total_total)) %>%
+    filter(brand_name != "TOPLAM:") %>% 
+    filter(brand_name != "ODD*") %>%
+    filter(year == "2016") %>%  
+    group_by(brand_name) %>%
+    summarize(year_total = sum(total_total)) %>%
+    arrange(desc(year_total))
+
+raw_data1 %>% top_n(5) %>% 
+    mutate(prop=percent(year_total / sum(year_total))) %>%
+    ggplot(data = ., aes(x="", y=prop, fill=brand_name))+ labs(x = "", y = "", title = "Top 5 Car Sales per Brand in 2016") +  
+    geom_bar(width = 1, stat = "identity") + coord_polar("y", start=0) +
+    theme(plot.title=element_text(hjust=0.5,face='bold',size=16)) +  
+    theme_classic() + theme(axis.line = element_blank(), axis.text = element_blank(), axis.ticks = element_blank()) +
+    geom_text(aes(label=prop),position=position_stack(vjust = 0.5)) + guides(fill=guide_legend(title="Brand Name")) 
+```
+
+### Analysis II
+Secondly and lastly, I want to compare total annual automobile sales of FIAT and TOYOTA:
+```{r}
+#Total Annual Automobile Sales of FIAT and TOYOTA
+raw_data %>%
+  group_by(brand_name, year) %>% 
+  filter(brand_name %in% c("FIAT", "TOYOTA")) %>%
+  summarize(yearly_auto_total = sum(auto_total))%>%
+  ggplot(data=., aes(x=year, y=yearly_auto_total, fill=brand_name)) +
+  geom_bar(stat="identity", position=position_dodge())+
+  labs(x="Years", y = "Number Of Sales", fill="Brands") +
+  theme_minimal()
+```
+
+We can see that FIAT was in front by a little margin in 2016 but that margin goes higher in 2017 as TOYOTA had a dramatical decrease in sales and adversely FIAT had a decent increase. And this year looks a lot like 2016 in comparison.
